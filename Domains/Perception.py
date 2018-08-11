@@ -23,23 +23,23 @@ class Perception:
         self.calculate_predictability()
 
     def calculate_conducive_to_goal(self):
-        value = (2 * (.5 - abs(self.speech.intensity)) + self.speech.fluency + 2 * (.5 - abs(self.speech.duration)) +
-                 self.speech.pitch_range * -1 + 2 * (.5 - abs(self.speech.volume)) + 2 * (.5 - abs(self.speech.rate)) +
-                 self.speech.pitch_variance*-1) / 7
+        value = (2 * (.5 - abs(self.speech.intensity)) + 2*(.5 - abs(self.speech.duration)) +
+                 2*(.5 - abs(self.speech.average_pitch)) + 2 * (.5 - abs(self.speech.volume)) +
+                 2*(.5 - abs(self.speech.rate)) + 2*(.5 - abs(self.speech.signal_energy))) / 6
         self.change = abs(self.abstract_domain.conduciveToGoal - value)
         self.abstract_domain.conduciveToGoal = value
 
     def calculate_discrepancy_from_expectation(self):
-        value = (self.speech.fluency*-1 + -2*(.5 - abs(self.speech.pitch_range)) + -2*(.5 - abs(self.speech.volume)) +
-                 -2*(.5 - abs(self.speech.rate)) + -2*(.5 - abs(self.speech.pitch_variance))) / 5
-        self.change = abs(self.abstract_domain.conduciveToGoal - value)
+        value = (-2*(.5 - abs(self.speech.signal_energy)) + -2*(.5 - abs(self.speech.volume)) +
+                 -2*(.5 - abs(self.speech.rate)) + -2*(.5 - abs(self.speech.average_pitch))) / 4
+        self.change = abs(self.abstract_domain.discrepancy_from_expectation - value)
         self.abstract_domain.discrepancy_from_expectation = value
 
     def calculate_familiarity(self):
-        value = (2*(.5 - abs(self.speech.intensity)) + 2*(.5 - abs(self.speech.fluency)) +
-                 2*(.5 - abs(self.speech.duration)) + self.speech.pitch_range*-1 + 2 * (.5 - abs(self.speech.volume)) +
-                 2*(.5 - abs(self.speech.rate)) + -1*self.speech.pitch_variance) / 7
-        self.change = abs(self.abstract_domain.conduciveToGoal - value)
+        value = (2*(.5 - abs(self.speech.intensity)) + 2*(.5 - abs(self.speech.duration)) +
+                 2*(.5 - abs(self.speech.signal_energy)) + 2*(.5 - abs(self.speech.volume)) +
+                 2*(.5 - abs(self.speech.rate)) + 2*(.5 - abs(self.speech.average_pitch))) / 6
+        self.change = abs(self.abstract_domain.familiarity - value)
         self.abstract_domain.familiarity = value
 
     def calculate_predictability(self):
@@ -48,20 +48,19 @@ class Perception:
         self.abstract_domain.predictability = value
 
     def calculate_suddenness(self):
-        value = (self.speech.intensity + -1*self.speech.fluency + -1*self.speech.duration + self.speech.pitch_range +
-                 self.speech.volume + self.speech.pitch_variance) / 6
-        self.change = abs(self.abstract_domain.conduciveToGoal - value)
+        value = (self.speech.intensity + -1*self.speech.duration + self.speech.volume + self.speech.average_pitch) / 6
+        self.change = abs(self.abstract_domain.suddenness - value)
         self.abstract_domain.suddenness = value
 
     def calculate_valence(self):
-        value = (self.speech.intensity + self.speech.pitch_range + self.speech.volume + self.speech.rate +
-                 self.speech.pitch_variance) / 5
-        self.change = abs(self.abstract_domain.conduciveToGoal - value)
+        value = (self.speech.intensity + self.speech.average_pitch + self.speech.volume + self.speech.rate +
+                 self.speech.signal_energy) / 5
+        self.change = abs(self.abstract_domain.valence - value)
         self.abstract_domain.valence = value
 
     def calculate_urgency(self):
-        value = (self.speech.intensity + self.speech.fluency*-1 + self.speech.duration*-1 + self.speech.pitch_range +
-                 self.speech.volume + self.speech.rate + self.speech.pitch_variance) / 7
-        self.change = abs(self.abstract_domain.conduciveToGoal - value)
+        value = (self.speech.intensity + self.speech.duration*-1 + self.speech.signal_energy +
+                 self.speech.volume + self.speech.rate + self.speech.average_pitch) / 6
+        self.change = abs(self.abstract_domain.urgency - value)
         self.abstract_domain.urgency = value
 

@@ -2,7 +2,7 @@ class Speech:
     intensity = None
     fluency = None
     duration = None
-    pitch_range = None
+    average_pitch = None
     volume = None
     rate = None
-    pitch_variance = None
+    signal_energy = None
